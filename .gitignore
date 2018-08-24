@@ -1,0 +1,16 @@
+.idea/
+*.ims
+*.iml
+
+.classpath
+.project
+.settings/
+
+target/
+
+bin/
+out/
+
+stacks.txt
+collapsed.txt
+
