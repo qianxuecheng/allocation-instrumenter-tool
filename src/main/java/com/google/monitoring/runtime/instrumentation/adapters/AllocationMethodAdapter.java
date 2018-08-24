@@ -477,7 +477,7 @@ public class AllocationMethodAdapter extends MethodVisitor {
         } else if (opcode == Opcodes.ANEWARRAY) {
             super.visitInsn(Opcodes.DUP);
             super.visitTypeInsn(opcode, typeName);
-            invokeRecordAllocation(typeName);
+            //invokeRecordAllocation(typeName);
         } else {
             super.visitTypeInsn(opcode, typeName);
         }
