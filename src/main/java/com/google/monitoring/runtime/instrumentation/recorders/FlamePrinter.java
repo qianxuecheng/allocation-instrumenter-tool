@@ -49,12 +49,23 @@ public class FlamePrinter extends Thread {
         for(;;){
             try {
                 final AllocationEvent event = queue.poll(1, TimeUnit.MILLISECONDS);
-                if (event != null) {
+                if (event != null&&!isIgnore()) {
                     process(event);
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
+    }
+
+    private boolean isIgnore() {
+        try {
+            if (new File("/tmp/allocation.flag").exists()) {
+                return false;
+            }
+        } catch (Exception e) {
+            return true;
+        }
+        return true;
     }
 }
