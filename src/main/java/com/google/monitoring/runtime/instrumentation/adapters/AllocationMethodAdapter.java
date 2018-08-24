@@ -280,7 +280,7 @@ public class AllocationMethodAdapter extends MethodVisitor {
                         recorderMethod, RECORDER_SIGNATURE, false);
                 // -> stack: ... newobj
                 return;
-            } else if (signature.equals("(Ljava/lang/Class;[I)Ljava/lang/Object;")) {
+            } /*else if (signature.equals("(Ljava/lang/Class;[I)Ljava/lang/Object;")) {
                 final Label beginScopeLabel = new Label();
                 final Label endScopeLabel = new Label();
                 super.visitLabel(beginScopeLabel);
@@ -321,10 +321,10 @@ public class AllocationMethodAdapter extends MethodVisitor {
                         recorderMethod, RECORDER_SIGNATURE, false);
                 // -> stack: ... newobj
                 return;
-            }
+            }*/
         }
 
-        if (opcode == Opcodes.INVOKEVIRTUAL) {
+/*        if (opcode == Opcodes.INVOKEVIRTUAL) {
             if ("clone".equals(name) && owner.startsWith("[")) {
                 super.visitMethodInsn(opcode, owner, name, signature, itf);
 
@@ -372,9 +372,9 @@ public class AllocationMethodAdapter extends MethodVisitor {
                     return;
                 }
             }
-        }
+        }*/
 
-        if (opcode == Opcodes.INVOKESPECIAL) {
+/*        if (opcode == Opcodes.INVOKESPECIAL) {
             if ("clone".equals(name) && "java/lang/Object".equals(owner)) {
                 buildRecorderFromObject(opcode, owner, name, signature, itf);
                 return;
@@ -397,7 +397,7 @@ public class AllocationMethodAdapter extends MethodVisitor {
                 super.visitInsn(Opcodes.POP);
                 return;
             }
-        }
+        }*/
 
         super.visitMethodInsn(opcode, owner, name, signature, itf);
     }
