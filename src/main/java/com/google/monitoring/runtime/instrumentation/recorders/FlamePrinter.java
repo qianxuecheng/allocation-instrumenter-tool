@@ -22,6 +22,8 @@ public class FlamePrinter extends Thread {
     private final EventParser.VerbosityLevel verbosityLevel;
     private AtomicInteger count=new AtomicInteger();
     private static long _1hour=3600*1000L;
+    private static long _1min=60*1000L;
+    private static long _1sec=1000;
     private long lastCreateFile=System.currentTimeMillis();
     private InstrumentationProperties properties;
 
@@ -53,7 +55,7 @@ public class FlamePrinter extends Thread {
     private void newWriter() {
         try {
             long now=System.currentTimeMillis();
-            if (now-lastCreateFile>_1hour) {
+            if (now-lastCreateFile>_1sec) {
                 writer.close();
                 lastCreateFile = now;
                 writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(properties.outputPath() +now), "utf-8"));
