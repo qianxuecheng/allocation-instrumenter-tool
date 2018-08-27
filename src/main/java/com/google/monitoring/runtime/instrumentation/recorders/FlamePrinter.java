@@ -35,6 +35,7 @@ public class FlamePrinter extends Thread {
     }
 
     private void process(final AllocationEvent event){
+        newWriter();
         final String entry = EventParser.parseEvent(event, verbosityLevel);
         if (!entry.equals("")) {
             try {
