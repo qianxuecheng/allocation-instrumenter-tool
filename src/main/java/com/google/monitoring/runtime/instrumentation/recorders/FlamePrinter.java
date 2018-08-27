@@ -31,7 +31,7 @@ public class FlamePrinter extends Thread {
     public FlamePrinter(final InstrumentationProperties properties) throws FileNotFoundException, UnsupportedEncodingException {
        this.properties=properties;
         System.out.println(this.getClass().getClassLoader());
-        writer = new BufferedWriter(new OutputStreamWriter( new FileOutputStream(properties.outputPath()), "utf-8"));
+        writer = new BufferedWriter(new OutputStreamWriter( new FileOutputStream(properties.outputPath()+count.getAndIncrement()), "utf-8"));
         verbosityLevel = properties.verbosityLevel();
     }
 
