@@ -32,7 +32,7 @@ public class FlamePrinter extends Thread {
 
     public FlamePrinter(final InstrumentationProperties properties) throws FileNotFoundException, UnsupportedEncodingException {
        this.properties=properties;
-        writer = new BufferedWriter(new OutputStreamWriter( new FileOutputStream(properties.outputPath()+System.currentTimeMillis()), "utf-8"));
+        writer = new BufferedWriter(new OutputStreamWriter( new FileOutputStream(properties.outputPath()+count.getAndIncrement()), "utf-8"));
         verbosityLevel = properties.verbosityLevel();
     }
 
@@ -41,7 +41,6 @@ public class FlamePrinter extends Thread {
     }
 
     private void process(final AllocationEvent event){
-        newWriter();
         final String entry = EventParser.parseEvent(event, verbosityLevel);
         if (!entry.equals("")) {
             try {
@@ -55,10 +54,10 @@ public class FlamePrinter extends Thread {
     private void newWriter() {
         try {
             long now=System.currentTimeMillis();
-            if (now-lastCreateFile>_1sec) {
+            if (now-lastCreateFile>_1hour) {
                 writer.close();
                 lastCreateFile = now;
-                writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(properties.outputPath() +now), "utf-8"));
+                writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(properties.outputPath() +count.getAndIncrement()), "utf-8"));
             }
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
@@ -80,6 +79,7 @@ public class FlamePrinter extends Thread {
         Thread.currentThread().setName("FlamePrinter");
         for(;;){
             try {
+                newWriter();
                 final AllocationEvent event = queue.poll(1, TimeUnit.MILLISECONDS);
                 if (event != null&&!isIgnore()) {
                     process(event);
@@ -101,7 +101,5 @@ public class FlamePrinter extends Thread {
         return true;
     }
 
-    public static void main(String[] args) {
-        System.out.println(500-100>300);
-    }
+
 }
