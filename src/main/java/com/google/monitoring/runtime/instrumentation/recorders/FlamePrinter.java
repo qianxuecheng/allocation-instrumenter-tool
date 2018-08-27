@@ -30,7 +30,7 @@ public class FlamePrinter extends Thread {
 
     public FlamePrinter(final InstrumentationProperties properties) throws FileNotFoundException, UnsupportedEncodingException {
        this.properties=properties;
-        writer = new BufferedWriter(new OutputStreamWriter( new FileOutputStream(properties.outputPath()+count.getAndIncrement()), "utf-8"));
+        writer = new BufferedWriter(new OutputStreamWriter( new FileOutputStream(properties.outputPath()+System.currentTimeMillis()), "utf-8"));
         verbosityLevel = properties.verbosityLevel();
     }
 
@@ -56,7 +56,7 @@ public class FlamePrinter extends Thread {
             if (now-lastCreateFile>_1hour) {
                 writer.close();
                 lastCreateFile = now;
-                writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(properties.outputPath() +count.getAndIncrement()), "utf-8"));
+                writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(properties.outputPath() +now), "utf-8"));
             }
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
@@ -97,5 +97,9 @@ public class FlamePrinter extends Thread {
             return true;
         }
         return true;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(500-100>300);
     }
 }
